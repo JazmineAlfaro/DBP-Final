@@ -9,7 +9,7 @@
 
 <body>
     <div id="registrar">
-            <a href="final.html">Regresar</a>
+            <a href="login.html">Regresar</a>
     </div>
     <div id="envoltura">
         <div id="contenedor">
@@ -41,5 +41,8 @@
     </div>
  
 </body>
- 
+
 </html>
+
+<!--username; last_name; password; name.-->
+
