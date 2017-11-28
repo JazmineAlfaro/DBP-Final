@@ -18,12 +18,14 @@ if(isset($_SESSION['session']))
 <body>
  
     <div id="registrar">
-<a href="registro.php"</a>Registrarse</a>
+	<a href="registro.php" a>Registrarse</a>
 </div> 
  
     <div id="envoltura">
         <div id="contenedor">
  
+			<div id="head">Pagina de Inicio</div>
+			
             <div id="cuerpo">
                 <form id="form-login" action="" method="post" autocomplete="off">
                     <!--A saber, el atributo form funciona como el id.-->
@@ -34,11 +36,10 @@ if(isset($_SESSION['session']))
                         <input name="contrasenia" type="password" id="contrasenia" placeholder="Ingresa tu  Password" required=""></p>
  
                     <p id="bot"><input type="submit" id="submit" name="submit" value="Ingresar" class="boton"></p>
-					<p><button type="button" class="btn btn-success">Success</button></p>
+				
                 </form>
             </div>
  
-            <div id="pie">Pagina de Registro</div>
         </div>
     </div>
 </body>
