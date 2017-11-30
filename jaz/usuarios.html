@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+ <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+ <script>
+var usuariosPorUsername = {};
+function cargarUsuarios() {
+  jQuery.ajax({method: "GET", url: "usuarios.json.php", dataType: 'text'}).done(function( responseText ) {
+      var json = JSON.parse(responseText);
+      var html = "<tr><td>Codigo</td><td>Nombres</td></tr>";
+      for (var i=0; i<json.length; i++) {
+          html += "<tr onclick='editarUsuarios(\"" + json[i].username + "\")'><td>" + json[i].username + "</td><td>";
+          html += json[i].name + "</td><td>";
+          html += json[i].last_name+ "</td><td>";
+          html += json[i].password + "</td><td>";
+          html += "<button onclick='eliminarUsuario(\"" + json[i].username + "\")'>X</button></td></tr>";
+		  
+		  usuariosPorUsername[json[i].username] = json[i];
+      }
+      jQuery("#usuarios").html(html);
+  });
+}
+function guardarUsuarios() {
+  var usuario = {
+	"username": jQuery("#username").val(),
+	"name": jQuery("#name").val(),
+	"last_name":  jQuery("#last_name").val(),
+	"password":  jQuery("#password").val()
+  };
+  jQuery.ajax({method: "POST", url: "guardado.json.php", data: JSON.stringify(usuarios), dataType: 'text'}).done(function( responseText ) {
+	cargarUsuarios();
+	//alert(responseText);
+  });
+}
+
+function verificarUsuarios() {
+	var usuario = {
+		"username": jQuery("#login_username").val(),
+		"password": jQuery("#login_password").val()
+	};
+	jQuery.ajax({method: "POST", url: "validar-usuario.json.php", data: JSON.stringify(usuarios), dataType: 'text'}).done(function( responseText ) {
+		var bool=responseText;
+		if(bool==1)
+		{
+			document.cookie = "PassUser=" + encodeURIComponent(usuario.Username); path="chat.php"; domain="chat.php";
+			window.document.location.href = 'chat.php';
+		}
+	});
+}
+	
+
+function editarUsuarios(username) {
+ var usuario = usuariosPorUsername[username];
+ jQuery("#username").val(usuario.username);
+ jQuery("#name").val(usuario.name);
+ jQuery("#last_name").val(usuario.last_name);
+ jQuery("#password").val(usuario.password)
+}
+
+
+function eliminarUsuario(codigo) {
+  jQuery.ajax({method: "GET", url: "eliminar-usuario.json.php?username=" + usernmae, dataType: 'text'}).done(function( responseText ) {
+	cargarUsuarios();
+	//alert(responseText);
+  });
+}
+</script>
+</head>
+
+<body>
+ <button onclick="cargarUsuario()">Cargar</button>
+ <table id="usuarios" border="1">
+ </table>
+ <h3>Nuevo Usuario</h3>
+ <table id="nuevo-usuario" border="1">
+  <tr><td>Username</td><td><input id="username" /></td></tr>
+  <tr><td>Name</td><td><input id="name" /></td></tr>
+  <tr><td>Last Name</td><td><input id="last_name" /></td></tr>
+  <tr><td>Password</td><td><input id="password" /></td></tr>
+ </table>
+ <button onclick="guardarUsuarios()">Guardar </button>
+ <button onclick="verificarUsuarios()">Verficar </button>
+ 
+</body>
+
+</html>
